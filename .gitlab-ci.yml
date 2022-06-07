@@ -10,7 +10,6 @@ heroku:
   script:
   - heroku git:remote -a csv-parser-srijin
   - git add --all  
-  - git commit -m "initial commit"
   - git push origin main
 
 build:
