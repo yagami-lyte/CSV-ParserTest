@@ -44,17 +44,17 @@ class GreetingController {
 
     @PostMapping("/add-meta-data")
     fun postBody(@RequestBody configData: String): String {
-        return handleAddingCsvMetaData.postResponse()
+        return handleAddingCsvMetaData.postResponse(configData)
     }
 
     @PostMapping("/csv")
     fun postCSV(@RequestBody csvData: String): String {
-        return handleCsv.postResponse()
+        return handleCsv.postResponse(csvData)
     }
 
     @PostMapping("/get-config-response")
     fun postGetConfigResponse(@RequestBody csvData: String): String {
-        return sendConfigurations.postResponse()
+        return sendConfigurations.postResponse(csvData)
     }
 
 
