@@ -10,7 +10,7 @@ heroku:
   script:
   - heroku git:remote -a csv-parser-srijin
   - git add --all  
-  - git push heroku HEAD:main
+  - git push heroku Deploy2:main
 
 build:
   stage: build
