@@ -4,7 +4,7 @@ import 'cypress-file-upload';
 describe("Test for configuration body", () => {
 
     it("Should load server successfully", () => {
-        cy.visit('http://localhost:3004')
+        cy.visit('http://localhost:3002')
     })
 
     it("Should contain the Configuration Header", () => {
