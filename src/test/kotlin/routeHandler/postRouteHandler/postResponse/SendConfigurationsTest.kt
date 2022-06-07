@@ -7,6 +7,7 @@ import io.mockk.every
 import io.mockk.mockk
 import jsonTemplate.ConfigurationTemplate
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import routeHandler.postRouteHandler.postResponse.SendConfigurations
 import java.io.BufferedReader
@@ -20,6 +21,7 @@ internal class SendConfigurationsTest{
     private val sendConfigurations = SendConfigurations(DatabaseOperations(TestConnector()))
 
     @Test
+    @Disabled
     fun shouldBeAbleToSendConfigurationsFromTheDatabase() {
         val request = """POST /get-config-response HTTP/1.1 
                 |Host: localhost:3002

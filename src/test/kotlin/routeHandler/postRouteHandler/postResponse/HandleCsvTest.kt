@@ -5,6 +5,7 @@ import io.mockk.every
 import io.mockk.mockk
 import jsonTemplate.ConfigurationTemplate
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.io.BufferedReader
 import java.io.ByteArrayInputStream
@@ -16,6 +17,7 @@ internal class HandleCsvTest {
 
 
     @Test
+    @Disabled
     fun shouldBeAbleToGetResponseForCsvPOSTRequest() {
 
         val request = """POST /csv HTTP/1.1 
