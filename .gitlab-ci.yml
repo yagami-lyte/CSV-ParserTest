@@ -1,15 +1,39 @@
-# Example config for CI/CD between Heroku and Gitlab by </unchained
-image: node:latest
-
 stages:
   - deploy
+  - build
+  - test
+heroku:
+ stage: deploy
+ only:
+ - master
+ script:
+ - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/csv-parser-srijin.git
+ - git push -f heroku master
 
-deploy:
-  stage: deploy
+build:
+  stage: build
+  image: gradle:jdk11
   script:
-    - apt-get update -qy
-    - apt-get install -y ruby ruby-dev rubygems-integration
-    - gem install dpl
-    # Don't forget to define $HEROKU_APP and $HEROKU_API_KEY
-    # variables under Settings > CI/CD > Secret Variables on GitLab
-    - dpl --provider=heroku --app=$HEROKU_APP --api-key=$HEROKU_API_KEY --skip-cleanup
+    - gradle --no-daemon build
+  artifacts:
+    paths:
+      - build/distributions
+    expire_in: 1 day
+    when: always
+junit-test:
+  stage: test
+  image: gradle:jdk11
+  dependencies: []
+  script:
+    - gradle test
+  timeout: 5m
+cypress-test:
+  stage: test
+  image: registry.gitlab.com/sahajsoft/gurukul2022/csv-parser-srijan:latestSrigin2
+  dependencies:
+    - build
+  script:
+    - unzip -q build/distributions/csv-parser-srijan-1.0-SNAPSHOT.zip -d build/distributions
+    - sh build/distributions/csv-parser-srijan-1.0-SNAPSHOT/bin/csv-parser-srijan &
+    - npm install --save-dev cypress-file-upload
+    - npx cypress run
