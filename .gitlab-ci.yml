@@ -8,9 +8,8 @@ heroku:
   only:
   - Deploy2
   script:
-  - heroku git:remote -a csv-parser-srijin
-  - git add --all  
-  - git push https://git.heroku.com/csv-parser-srijin.git HEAD:main
+  - git add .
+  - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/csv-parser-srijin.git master
 
 build:
   stage: build
