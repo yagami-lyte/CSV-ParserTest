@@ -1,7 +1,14 @@
 stages:
+  - deploy
   - build
   - test
-  - deploy
+ 
+heroku:
+  stage: deploy
+  only:
+  - Deploy2
+  script:
+  - git push heroku Deploy2
 
 build:
   stage: build
@@ -33,11 +40,4 @@ cypress-test:
     - npm install --save-dev cypress-file-upload 
     - npx cypress run
 
-heroku:
- stage: deploy
- only:
- - Deploy2
- script:
- - git add . 
- - git commit -m "Deploying To Heroku"
- - git push heroku Deploy2
+
