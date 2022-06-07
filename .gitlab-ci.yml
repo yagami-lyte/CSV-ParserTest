@@ -8,7 +8,8 @@ heroku:
   only:
   - Deploy2
   script:
-  - git pull Deploy2
+  - heroku git:remote -a csv-parser-srijin
+  - git add . 
   - git push heroku Deploy2
 
 build:
