@@ -3,13 +3,23 @@ stages:
   - build
   - test
  
+# heroku:
+#   stage: deploy
+#   only:
+#   - Deploy2
+#   script:
+#   - git add .
+#   - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/csv-parser-srijin.git master
+
 heroku:
   stage: deploy
-  only:
-  - Deploy2
   script:
-  - git add .
-  - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/csv-parser-srijin.git master
+    - apt-get update -qy
+    - apt-get install -y ruby ruby-dev rubygems-integration
+    - gem install dpl
+    # Don't forget to define $HEROKU_APP and $HEROKU_API_KEY
+    # variables under Settings > CI/CD > Secret Variables on GitLab
+    - dpl --provider=heroku --app=$HEROKU_APP --api-key=$HEROKU_API_KEY --skip-cleanup
 
 build:
   stage: build
