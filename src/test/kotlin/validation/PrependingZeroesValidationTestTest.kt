@@ -14,16 +14,14 @@ internal class PrependingZeroesValidationTest {
     fun shouldPerformPrependingZeroesCheck() {
         val metaData =
             """[{"fieldName":"Export Number","type":"Number","length":"","dependentOn":"","dependentValue":"","values":[]},{"fieldName":"Country Name","type":"Alphabets","length":"4","dependentOn":"Export","dependentValue":"N","values":["Export,Country Name","Y,","N,USA",""]}]"""
-        val postRouteHandler = PostRouteHandler()
-        val jsonData = getMetaData(metaData)
-        postRouteHandler.fieldArray = jsonData
+        val configData = getMetaData(metaData)
         val csvData = """[{"Export Number":"0034","Country Name":""},{"Export Number":"12","Country Name":"USA"}]"""
         val jsonCsvData = JSONArray(csvData)
         val expected = mutableMapOf(
             "Export Number" to mutableListOf(2)
         )
 
-        val actual = prependingZeroesValidation.validate(jsonCsvData, postRouteHandler.fieldArray)
+        val actual = prependingZeroesValidation.validate(jsonCsvData, configData)
 
         assertEquals(expected.toString(), actual.toString())
     }
@@ -32,16 +30,14 @@ internal class PrependingZeroesValidationTest {
     fun shouldPerformPrependingZeroesCheckWithMultipleErrors() {
         val metaData =
             """[{"fieldName":"Export Number","type":"Number","length":"","dependentOn":"","dependentValue":"","values":[]},{"fieldName":"Country Name","type":"Alphabets","length":"4","dependentOn":"Export","dependentValue":"N","values":["Export,Country Name","Y,","N,USA",""]}]"""
-        val postRouteHandler = PostRouteHandler()
-        val jsonData = getMetaData(metaData)
-        postRouteHandler.fieldArray = jsonData
+        val configData = getMetaData(metaData)
         val csvData = """[{"Export Number":"0034","Country Name":""},{"Export Number":"012","Country Name":"USA"}]"""
         val jsonCsvData = JSONArray(csvData)
         val expected = mutableMapOf(
             "Export Number" to mutableListOf(2)
         )
 
-        val actual = prependingZeroesValidation.validate(jsonCsvData, postRouteHandler.fieldArray)
+        val actual = prependingZeroesValidation.validate(jsonCsvData, configData)
 
         assertEquals(expected.toString(), actual.toString())
     }
@@ -50,14 +46,12 @@ internal class PrependingZeroesValidationTest {
     fun shouldPerformPrependingZeroesCheckWithNoErrors() {
         val metaData =
             """[{"fieldName":"Export Number","type":"Number","length":"","dependentOn":"","dependentValue":"","values":[]},{"fieldName":"Country Name","type":"Alphabets","length":"4","dependentOn":"Export","dependentValue":"N","values":["Export,Country Name","Y,","N,USA",""]}]"""
-        val postRouteHandler = PostRouteHandler()
-        val jsonData = getMetaData(metaData)
-        postRouteHandler.fieldArray = jsonData
+        val configData = getMetaData(metaData)
         val csvData = """[{"Export Number":"34","Country Name":""},{"Export Number":"12","Country Name":"USA"}]"""
         val jsonCsvData = JSONArray(csvData)
         val expected = mutableMapOf<String , MutableList<Int>>()
 
-        val actual = prependingZeroesValidation.validate(jsonCsvData, postRouteHandler.fieldArray)
+        val actual = prependingZeroesValidation.validate(jsonCsvData,configData)
 
         assertEquals(expected.toString(), actual.toString())
     }

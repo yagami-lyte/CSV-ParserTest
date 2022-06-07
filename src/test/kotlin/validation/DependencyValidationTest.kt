@@ -14,15 +14,13 @@ internal class DependencyValidationTest {
     fun shouldPerformDependencyCheck() {
         val metaData =
             """[{"fieldName":"Export","type":"Alphabets","length":"1","dependentOn":"","dependentValue":"","values":["Y","N"]},{"fieldName":"Country Name","type":"Alphabets","length":"4","dependentOn":"Export","dependentValue":"N","values":["Export,Country Name","Y,","N,USA",""]}]"""
-        val postRouteHandler = PostRouteHandler()
         val jsonData = getMetaData(metaData)
-        postRouteHandler.fieldArray = jsonData
         val csvData = """[{"Export":"Y","Country Name":""},{"Export":"N","Country Name":"USA"}]"""
         val jsonCsvData = JSONArray(csvData)
         val expected = mutableMapOf(
             "Country Name" to mutableListOf(2)
         )
-        val actual = dependencyValidation.validate(jsonCsvData, postRouteHandler.fieldArray)
+        val actual = dependencyValidation.validate(jsonCsvData, jsonData)
 
         assertEquals(expected.toString(), actual.toString())
     }
@@ -31,9 +29,7 @@ internal class DependencyValidationTest {
     fun shouldReturnJsonArrayWithMultipleErrors() {
         val metaData =
             """[{"fieldName":"Export","type":"Alphabets","length":"2","dependentOn":"","dependentValue":"","values":["Y","N"]},{"fieldName":"Country Name","type":"Alphabets","length":"4","dependentOn":"Export","dependentValue":"N","values":["Export,Country Name","Y,","N,USA",""]}]"""
-        val postRouteHandler = PostRouteHandler()
         val jsonData = getMetaData(metaData)
-        postRouteHandler.fieldArray = jsonData
         val csvData =
             """[{"Export":"Y","Country Name":""},{"Export":"Y","Country Name":""},{"Export":"N","Country Name":"USA"}]"""
         val jsonCsvData = JSONArray(csvData)
@@ -42,7 +38,7 @@ internal class DependencyValidationTest {
             "Country Name" to mutableListOf(2,3)
         )
 
-        val actual = dependencyValidation.validate(jsonCsvData, postRouteHandler.fieldArray)
+        val actual = dependencyValidation.validate(jsonCsvData, jsonData)
 
         assertEquals(expected.toString(), actual.toString())
     }
@@ -51,16 +47,14 @@ internal class DependencyValidationTest {
     fun shouldReturnJsonArrayWithNoErrors() {
         val metaData =
             """[{"fieldName":"Export","type":"Alphabets","length":"3","dependentOn":"","dependentValue":"","values":["Y","N"]},{"fieldName":"Country Name","type":"Alphabets","length":"4","dependentOn":"Export","dependentValue":"N","values":["Export,Country Name","Y,","N,USA",""]}]"""
-        val postRouteHandler = PostRouteHandler()
         val jsonData = getMetaData(metaData)
-        postRouteHandler.fieldArray = jsonData
         val csvData =
             """[{"Export":"Y","Country Name":"AUS"},{"Export":"Y","Country Name":"IND"},{"Export":"N","Country Name":"USA"}]"""
         val jsonCsvData = JSONArray(csvData)
         val dependencyValidation = DependencyValidation()
         val expected = mutableMapOf<String,MutableList<Int>>()
 
-        val actual = dependencyValidation.validate(jsonCsvData, postRouteHandler.fieldArray)
+        val actual = dependencyValidation.validate(jsonCsvData, jsonData)
 
         assertEquals(expected.toString(), actual.toString())
     }

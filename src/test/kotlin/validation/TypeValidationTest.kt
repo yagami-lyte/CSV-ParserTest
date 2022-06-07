@@ -80,9 +80,7 @@ class TypeValidationTest {
 
         val metaData =
             """[{"fieldName": "Product Id","type": "Text","length": 4},{"fieldName": "Price","type": "Number"},{"fieldName": "Export","type": "Alphabets"}]"""
-        val postRouteHandler = PostRouteHandler()
-        val jsonData = getMetaData(metaData)
-        postRouteHandler.fieldArray = jsonData
+        val configData = getMetaData(metaData)
         val csvData =
             """[{"Product Id": "s@gmail,com","Price": "4500.59","Export": "N"},{"Product Id": "s@gmail,com","Price": "1000abc","Export": "Y"}]"""
         val jsonCsvData = JSONArray(csvData)
@@ -90,7 +88,7 @@ class TypeValidationTest {
             "Price" to mutableListOf(3)
         )
 
-        val actualErrorList = typeValidation.validate(jsonCsvData, postRouteHandler.fieldArray)
+        val actualErrorList = typeValidation.validate(jsonCsvData, configData)
 
         Assertions.assertEquals(expectedError.toString(), actualErrorList.toString())
     }
@@ -99,9 +97,7 @@ class TypeValidationTest {
     fun shouldReturnJsonArrayWithMultipleErrors() {
         val metaData =
             """[{"fieldName": "Product Id","type": "AlphaNumeric","length": 5},{"fieldName": "Price","type": "Number"},{"fieldName": "Export","type": "Alphabets"}]"""
-        val postRouteHandler = PostRouteHandler()
-        val jsonData = getMetaData(metaData)
-        postRouteHandler.fieldArray = jsonData
+        val configData = getMetaData(metaData)
         val csvData =
             """[{"Product Id": "1564","Price": "4500.59a","Export": "N"},{"Product Id": "1565","Price": "1000abc","Export": "Y"}]"""
         val jsonCsvData = JSONArray(csvData)
@@ -109,7 +105,7 @@ class TypeValidationTest {
             "Price" to mutableListOf(2,3)
         )
 
-        val actual = typeValidation.validate(jsonCsvData, postRouteHandler.fieldArray)
+        val actual = typeValidation.validate(jsonCsvData,configData)
 
         Assertions.assertEquals(expected.toString(), actual.toString())
     }
@@ -118,15 +114,13 @@ class TypeValidationTest {
     fun shouldReturnJsonArrayWithNoErrors() {
         val metaData =
             """[{"fieldName": "Product Id","type": "AlphaNumeric","length": 5},{"fieldName": "Price","type": "Number"},{"fieldName": "Export","type": "Alphabets"}]"""
-        val postRouteHandler = PostRouteHandler()
-        val jsonData = getMetaData(metaData)
-        postRouteHandler.fieldArray = jsonData
+        val configData = getMetaData(metaData)
         val csvData =
             """[{"Product Id": "1564","Price": "4500.59","Export": "N"},{"Product Id": "1565","Price": "1000","Export": "Y"}]"""
         val jsonCsvData = JSONArray(csvData)
         val expected = mutableMapOf<String , MutableList<Int>>()
 
-        val actual = typeValidation.validate(jsonCsvData, postRouteHandler.fieldArray)
+        val actual = typeValidation.validate(jsonCsvData, configData)
 
         Assertions.assertEquals(expected.toString(), actual.toString())
     }

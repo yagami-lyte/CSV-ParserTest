@@ -17,11 +17,9 @@ class DuplicateTest {
         val duplicateValidation = DuplicateValidation()
         val jsonString = "[{a : 1, b : 2, c : 3},{a : 1, b : 2, c : 4}]"
         val jsonArray = JSONArray(jsonString)
-        val postRouteHandler = PostRouteHandler()
-        val jsonData = getMetaData(metaData)
-        postRouteHandler.fieldArray = jsonData
+        val configData = getMetaData(metaData)
 
-        val actual = duplicateValidation.validate(jsonArray,postRouteHandler.fieldArray)
+        val actual = duplicateValidation.validate(jsonArray,configData)
 
         assertTrue(actual.isEmpty())
     }
@@ -31,12 +29,10 @@ class DuplicateTest {
         val duplicateValidation = DuplicateValidation()
         val jsonString = "[{a : 1, b : 2, c : 3},{a : 1, b : 2, c : 3}]"
         val jsonArray = JSONArray(jsonString)
-        val postRouteHandler = PostRouteHandler()
-        val jsonData = getMetaData(metaData)
-        postRouteHandler.fieldArray = jsonData
+        val configData = getMetaData(metaData)
         val expected = """{2=[1]}"""
 
-        val actual = duplicateValidation.validate(jsonArray, postRouteHandler.fieldArray).toString()
+        val actual = duplicateValidation.validate(jsonArray, configData).toString()
 
         assertEquals(expected, actual)
     }
@@ -47,11 +43,9 @@ class DuplicateTest {
         val jsonString = "[{a : 1, b : 2, c : 3},{a : 1, b : 2, c : 3},{a : 1, b : 2, c : 3} ]"
         val jsonArray = JSONArray(jsonString)
         val expected = """{2=[1], 3=[1]}"""
-        val postRouteHandler = PostRouteHandler()
-        val jsonData = getMetaData(metaData)
-        postRouteHandler.fieldArray = jsonData
+        val configData = getMetaData(metaData)
 
-        val actual = duplicateValidation.validate(jsonArray , postRouteHandler.fieldArray).toString()
+        val actual = duplicateValidation.validate(jsonArray , configData).toString()
         println(actual)
 
         assertEquals(expected.toList(), actual.toList())
@@ -63,11 +57,9 @@ class DuplicateTest {
         val jsonString = "[{a : 1, b : 2, c : 3},{a : 1, b : 2, c : 3},{a : 2, b : 2, c : 2}, {a : 2, b : 2, c : 2}]"
         val jsonArray = JSONArray(jsonString)
         val expected = """{2=[1], 4=[3]}"""
-        val postRouteHandler = PostRouteHandler()
-        val jsonData = getMetaData(metaData)
-        postRouteHandler.fieldArray = jsonData
+        val configData = getMetaData(metaData)
 
-        val actual = duplicateValidation.validate(jsonArray , postRouteHandler.fieldArray).toString()
+        val actual = duplicateValidation.validate(jsonArray , configData).toString()
         println(actual)
 
         assertEquals(expected.toList(), actual.toList())

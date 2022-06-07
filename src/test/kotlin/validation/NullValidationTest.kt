@@ -15,9 +15,7 @@ class NullValidationTest {
 
         val metaData =
             """[{"fieldName": "Product Id","type": "Special Characters","length": 4,"nullValue":"Not Allowed"},{"fieldName": "Price","type": "Number"},{"fieldName": "Export","type": "Alphabet"}]"""
-        val postRouteHandler = PostRouteHandler()
-        val jsonData = getMetaData(metaData)
-        postRouteHandler.fieldArray = jsonData
+        val configData = getMetaData(metaData)
         val csvData =
             """[{"Product Id": "","Price": "4500.59","Export": "N"},{"Product Id": "s@gmail,com","Price": "1000abc","Export": "Y"}]"""
         val jsonCsvData = JSONArray(csvData)
@@ -25,7 +23,7 @@ class NullValidationTest {
             "Product Id" to mutableListOf(2)
         )
 
-        val actualErrorList = nullValidation.validate(jsonCsvData, postRouteHandler.fieldArray)
+        val actualErrorList = nullValidation.validate(jsonCsvData, configData)
 
         Assertions.assertEquals(expectedError.toString(), actualErrorList.toString())
     }
@@ -34,15 +32,13 @@ class NullValidationTest {
     fun shouldCheckIfNullValuesAreAllowed() {
         val metaData =
             """[{"fieldName": "Product Id","type": "Special Characters","length": 4},{"fieldName": "Price","type": "Number", "nullValue":"Allowed"},{"fieldName": "Export","type": "Alphabet"}]"""
-        val postRouteHandler = PostRouteHandler()
-        val jsonData = getMetaData(metaData)
-        postRouteHandler.fieldArray = jsonData
+        val configData = getMetaData(metaData)
         val csvData =
             """[{"Product Id": "1234","Price": "432","Export": "N"},{"Product Id": "s@gmail,com","Price": "1000abc","Export": "Y"}]"""
         val jsonCsvData = JSONArray(csvData)
         val expectedError = mutableMapOf<String , MutableList<Int>>()
 
-        val actualErrorList = nullValidation.validate(jsonCsvData, postRouteHandler.fieldArray)
+        val actualErrorList = nullValidation.validate(jsonCsvData,configData)
 
         Assertions.assertEquals(expectedError.toString(), actualErrorList.toString())
     }
@@ -51,9 +47,7 @@ class NullValidationTest {
     fun shouldCheckIfNullValuesInMultipleFieldsAreNotAllowed() {
         val metaData =
             """[{"fieldName": "Product Id","type": "Special Characters","length": 4},{"fieldName": "Price","type": "Number", "nullValue":"Not Allowed"},{"fieldName": "Export","type": "Alphabet", "nullValue":"Not Allowed"}]"""
-        val postRouteHandler = PostRouteHandler()
-        val jsonData = getMetaData(metaData)
-        postRouteHandler.fieldArray = jsonData
+        val configData = getMetaData(metaData)
         val csvData =
             """[{"Product Id": "1234","Price": "432","Export": ""},{"Product Id": "s@gmail,com","Price": "","Export": "Y"}]"""
         val jsonCsvData = JSONArray(csvData)
@@ -62,7 +56,7 @@ class NullValidationTest {
             "Price" to mutableListOf(3)
         )
 
-        val actualErrorList = nullValidation.validate(jsonCsvData, postRouteHandler.fieldArray)
+        val actualErrorList = nullValidation.validate(jsonCsvData,configData)
 
         Assertions.assertEquals(expectedError.toString(), actualErrorList.toString())
     }
@@ -71,15 +65,13 @@ class NullValidationTest {
     fun shouldCheckIfNullValuesInMultipleFieldsAreAllowed() {
         val metaData =
             """[{"fieldName": "Product Id","type": "Special Characters","length": 4},{"fieldName": "Price","type": "Number", "nullValue":"Allowed"},{"fieldName": "Export","type": "Alphabet", "nullValue":"Allowed"}]"""
-        val postRouteHandler = PostRouteHandler()
-        val jsonData = getMetaData(metaData)
-        postRouteHandler.fieldArray = jsonData
+        val configData = getMetaData(metaData)
         val csvData =
             """[{"Product Id": "1234","Price": "432","Export": ""},{"Product Id": "s@gmail,com","Price": "","Export": "Y"}]"""
         val jsonCsvData = JSONArray(csvData)
         val expectedError = mutableMapOf<String,MutableList<Int>>()
 
-        val actualErrorList = nullValidation.validate(jsonCsvData, postRouteHandler.fieldArray)
+        val actualErrorList = nullValidation.validate(jsonCsvData, configData)
 
         Assertions.assertEquals(expectedError.toString(), actualErrorList.toString())
     }

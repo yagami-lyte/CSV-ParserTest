@@ -1,5 +1,7 @@
+/*
 package server
 
+import com.sun.security.ntlm.Server
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -7,7 +9,7 @@ import java.net.Socket
 
 class ServerIntegrationTest {
 
-    private lateinit var server: Server
+    private var server: Server = null
 
     @Test
     @Disabled
@@ -59,4 +61,4 @@ class ServerIntegrationTest {
             server.startServer()
         }.start()
     }
-}
+}*/
