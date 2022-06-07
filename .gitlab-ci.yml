@@ -8,7 +8,7 @@ heroku:
   only:
   - Deploy2
   script:
-  - git pull 
+  - git pull Deploy2
   - git push heroku Deploy2
 
 build:
