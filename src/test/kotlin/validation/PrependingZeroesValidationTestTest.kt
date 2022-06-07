@@ -5,7 +5,6 @@ import jsonTemplate.ConfigurationTemplate
 import org.json.JSONArray
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import routeHandler.postRouteHandler.PostRouteHandler
 
 internal class PrependingZeroesValidationTest {
 
