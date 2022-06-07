@@ -38,5 +38,6 @@ heroku:
  only:
  - Deploy2
  script:
- - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/csv-parser-srijin.git
- - git push -f heroku Deploy2
+ - git add . 
+ - git commit -m "Deploying To Heroku"
+ - git push heroku Deploy2
