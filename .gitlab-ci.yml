@@ -36,7 +36,7 @@ cypress-test:
 heroku:
  stage: deploy
  only:
- - master
+ - Deploy2
  script:
  - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/csv-parser-srijin.git
- - git push -f heroku master
+ - git push -f heroku Deploy2
