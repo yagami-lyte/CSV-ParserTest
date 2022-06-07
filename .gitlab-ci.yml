@@ -9,7 +9,7 @@ heroku:
   script:
     - git remote rm heroku
     - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/csv-parser-srijin.git
-    - git push -f heroku Deploy2
+    - git push -f heroku main
 
 build:
   stage: build
