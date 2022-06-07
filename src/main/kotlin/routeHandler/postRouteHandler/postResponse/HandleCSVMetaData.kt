@@ -22,7 +22,7 @@ class HandleCSVMetaData(var fieldArray: Array<ConfigurationTemplate> = arrayOf()
     private fun getResponseForMetaData(body: String): String {
         storeConfigDataInAFile(body)
         fieldArray = getMetaData(body)
-        addConfigurationsToDatabase()
+//        addConfigurationsToDatabase()
         val endOfHeader = "\r\n\r\n"
         val responseBody = "Successfully Added Configuration File"
         val contentLength = responseBody.length

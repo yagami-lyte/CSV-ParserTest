@@ -17,10 +17,10 @@ import routeHandler.postRouteHandler.postResponse.SendConfigurations
 class GreetingController {
 
     private val homePage = HomePage()
-    private val configNames = ConfigNames(DatabaseOperations(database.Connector()))
+//    private val configNames = ConfigNames(DatabaseOperations(database.Connector()))
     private val handleCsv = HandleCsv()
     private val handleAddingCsvMetaData = HandleCSVMetaData()
-    private val sendConfigurations = SendConfigurations(DatabaseOperations(Connector()))
+//    private val sendConfigurations = SendConfigurations(DatabaseOperations(Connector()))
 
     @GetMapping("/")
     fun getHTML() :String {
@@ -37,10 +37,10 @@ class GreetingController {
         return homePage.getResponse("/main.css")
     }
 
-    @GetMapping("/get-config-files")
-    fun getConfigFiles() :String {
-        return  configNames.getResponse("/get-config-files")
-    }
+//    @GetMapping("/get-config-files")
+//    fun getConfigFiles() :String {
+//        return  configNames.getResponse("/get-config-files")
+//    }
 
     @PostMapping("/add-meta-data")
     fun postBody(@RequestBody configData: String): String {
@@ -52,10 +52,10 @@ class GreetingController {
         return handleCsv.postResponse(csvData)
     }
 
-    @PostMapping("/get-config-response")
-    fun postGetConfigResponse(@RequestBody csvData: String): String {
-        return sendConfigurations.postResponse(csvData)
-    }
+//    @PostMapping("/get-config-response")
+//    fun postGetConfigResponse(@RequestBody csvData: String): String {
+//        return sendConfigurations.postResponse(csvData)
+//    }
 
 
     /* @PostMapping("/add-meta-data")
