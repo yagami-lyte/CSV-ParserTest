@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import routeHandler.getRouteHandler.getResponse.ConfigNames
+import routeHandler.getRouteHandler.getResponse.ErrorPage
 import routeHandler.getRouteHandler.getResponse.HomePage
 import routeHandler.postRouteHandler.postResponse.HandleCSVMetaData
 import routeHandler.postRouteHandler.postResponse.HandleCsv
@@ -20,6 +21,7 @@ class GreetingController {
 //    private val configNames = ConfigNames(DatabaseOperations(database.Connector()))
     private val handleCsv = HandleCsv()
     private val handleAddingCsvMetaData = HandleCSVMetaData()
+    private val errorPage = ErrorPage()
 //    private val sendConfigurations = SendConfigurations(DatabaseOperations(Connector()))
 
     @GetMapping("/")
@@ -35,6 +37,11 @@ class GreetingController {
     @GetMapping("/main.css")
     fun getCSS() :String {
         return homePage.getResponse("/main.css")
+    }
+
+    @GetMapping("/error")
+    fun getErrorPage() :String {
+        return  errorPage.getResponse("/404.html")
     }
 
 //    @GetMapping("/get-config-files")
