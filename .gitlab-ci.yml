@@ -2,13 +2,26 @@ stages:
   - deploy
   - build
   - test
-heroku:
+#heroku:
+#  stage: deploy
+#  script:
+#    - git remote remove origin
+#    # - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/csv-parser-srijin.git
+#    - git remote add origin https://gitlab.com/sahajsoft/gurukul2022/csv-parser-srijan.git
+#    - git push heroku Deploy2:main
+
+Heroku:
   stage: deploy
+  image: docker:latest
+  services:
+    - docker:dind
   script:
-    - git remote remove origin
-    # - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/csv-parser-srijin.git
-    - git remote add origin https://gitlab.com/sahajsoft/gurukul2022/csv-parser-srijan.git
-    - git push heroku Deploy2:main
+    - echo "Deploying Backend..."
+    - docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
+    - docker build --file=Dockerfile --rm=true -t registry.heroku.com/csv-parser-srijin/web .
+    - docker push registry.heroku.com/csv-parser-srijin/web
+    - docker run -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli:latest container:release web -a csv-parser-srijin
+    - echo "Backend Deployment Complete!"
 
 build:
   stage: build
