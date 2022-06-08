@@ -29,6 +29,8 @@ Heroku:
   image: docker:latest
   services:
     - docker:dind
+  dependencies:
+    - build
   script:
     - echo "Deploying Backend..."
     - docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
@@ -37,7 +39,7 @@ Heroku:
     - docker run -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli:latest container:release web -a csv-parser-srijin
     - echo "Backend Deployment Complete!"
 
-    
+
 # junit-test:
 #   stage: test
 #   image: gradle:jdk11
