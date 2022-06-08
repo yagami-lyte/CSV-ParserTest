@@ -1,2 +1,2 @@
-web: java -jar build/libs/csv-parser-srijan-1.0-SNAPSHOT.jar
+web: java -jar build/libs/csv-parser-srijan-1.0-SNAPSHOT.jar --server.port=$PORT
 
