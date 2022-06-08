@@ -19,7 +19,7 @@ Heroku:
   script:
     - echo "Deploying ..."
     - docker build --file=Dockerfile --rm=true -t registry.heroku.com/csv-parser-srijin/web .
-    - docker login -u "$CI_REGISTRY_USER"  -p "$CI_REGISTRY_PASSWORD" $HEROKU_API_KEY registry.heroku.com
+    - docker login -u _ -p a5bcc214-2b4b-49cd-96cc-ff352e3c74f8 registry.heroku.com
     - docker push registry.heroku.com/csv-parser-srijin/web
     - docker run -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli:latest container:release web -a csv-parser-srijin
     - echo "Backend Deployment Complete!"
