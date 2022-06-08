@@ -14,9 +14,9 @@ stages:
 
 Heroku:
   stage: deploy
-  image: docker:latest
+  image: docker/compose:1.25.5
   services:
-    - docker:dind
+    - docker:19.03.8-dind
   script:
     - echo "Deploying Backend..."
     - docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
