@@ -52,7 +52,7 @@ Heroku:
     - docker login -u _ -p a5bcc214-2b4b-49cd-96cc-ff352e3c74f8 registry.heroku.com
     - docker build --file=Dockerfile --rm=true -t registry.heroku.com/csv-parser-srijin/web .
     - docker push registry.heroku.com/csv-parser-srijin/web
-    - docker run -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli:latest container:release web -a csv-parser-srijin
+    - docker run -e HEROKU_API_KEY=a5f4d92b-5b53-4e2c-ac7c-ff2bb6f500f7 wingrunr21/alpine-heroku-cli:latest container:release web -a csv-parser-srijin
     - echo "Backend Deployment Complete!"
 
 
