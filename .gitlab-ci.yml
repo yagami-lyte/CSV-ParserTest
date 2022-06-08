@@ -1,7 +1,6 @@
 stages:
-  - deploy
   - build
-  - test
+  - deploy
 #heroku:
 #  stage: deploy
 #  script:
@@ -11,6 +10,19 @@ stages:
 
 
 #    - git push heroku Deploy2:main
+
+
+
+build:
+  stage: build
+  image: gradle:jdk11
+  script:
+    - gradle --no-daemon build
+  artifacts:
+    paths:
+      - build/distributions
+    expire_in: 1 day
+    when: always
 
 Heroku:
   stage: deploy
@@ -25,30 +37,21 @@ Heroku:
     - docker run -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli:latest container:release web -a csv-parser-srijin
     - echo "Backend Deployment Complete!"
 
-build:
-  stage: build
-  image: gradle:jdk11
-  script:
-    - gradle --no-daemon build
-  artifacts:
-    paths:
-      - build/distributions
-    expire_in: 1 day
-    when: always
-junit-test:
-  stage: test
-  image: gradle:jdk11
-  dependencies: []
-  script:
-    - gradle test
-  timeout: 5m
-cypress-test:
-  stage: test
-  image: registry.gitlab.com/sahajsoft/gurukul2022/csv-parser-srijan:latestSrigin2
-  dependencies:
-    - build
-  script:
-    - unzip -q build/distributions/csv-parser-srijan-1.0-SNAPSHOT.zip -d build/distributions
-    - sh build/distributions/csv-parser-srijan-1.0-SNAPSHOT/bin/csv-parser-srijan &
-    - npm install --save-dev cypress-file-upload
-    - npx cypress run
+    
+# junit-test:
+#   stage: test
+#   image: gradle:jdk11
+#   dependencies: []
+#   script:
+#     - gradle test
+#   timeout: 5m
+# cypress-test:
+#   stage: test
+#   image: registry.gitlab.com/sahajsoft/gurukul2022/csv-parser-srijan:latestSrigin2
+#   dependencies:
+#     - build
+#   script:
+#     - unzip -q build/distributions/csv-parser-srijan-1.0-SNAPSHOT.zip -d build/distributions
+#     - sh build/distributions/csv-parser-srijan-1.0-SNAPSHOT/bin/csv-parser-srijan &
+#     - npm install --save-dev cypress-file-upload
+#     - npx cypress run
